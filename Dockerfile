@@ -4,6 +4,8 @@ FROM node:18-alpine
 # Set the working directory inside the container
 WORKDIR /home/node/app
 
+ENV NODE_ENV=dev
+
 # Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
@@ -12,6 +14,10 @@ RUN yarn config set registry https://registry.npmjs.org/ && yarn install --produ
 
 # Copy the rest of the application code
 COPY . .
+
+RUN ls -la
+
+RUN ls node_modules
 
 # Expose the application port
 EXPOSE 3000
