@@ -8,10 +8,12 @@ WORKDIR /home/node/app
 COPY package*.json ./
 
 # Install dependencies
-RUN yarn config set registry https://registry.npmjs.org/ && yarn install --production=false --verbose --network-concurrency 1 --network-timeout 1000000
+RUN yarn config set registry https://registry.npmjs.org/ && yarn install --production=false --network-concurrency 1 --network-timeout 1000000
 
 # Copy the rest of the application code
 COPY . .
+
+RUN yarn dev
 
 # Expose the application port
 EXPOSE 3000
