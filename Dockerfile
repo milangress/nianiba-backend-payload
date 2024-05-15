@@ -1,26 +1,29 @@
-# Use the official Node.js image as the base image
-FROM node:18-alpine
+FROM node:18.8-alpine as base
 
-# Set the working directory inside the container
+FROM base as builder
+
 WORKDIR /home/node/app
-
-ENV NODE_ENV=dev
-
-# Copy package.json and package-lock.json (if available)
 COPY package*.json ./
 
-# Install dependencies
-RUN yarn config set registry https://registry.npmjs.org/ && yarn install --production=false
-
-# Copy the rest of the application code
 COPY . .
+RUN yarn install --production=false
+RUN yarn build
+
+FROM base as runtime
+
+ENV NODE_ENV=production
+ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
+
+WORKDIR /home/node/app
+COPY package*.json  ./
+COPY yarn.lock ./
+
+RUN yarn install
+COPY --from=builder /home/node/app/dist ./dist
+COPY --from=builder /home/node/app/build ./build
 
 RUN ls -la
 
-RUN ls node_modules
-
-# Expose the application port
 EXPOSE 3000
 
-# Command to run the application
-CMD ["yarn", "dev"]
+CMD ["node", "dist/server.js"]
