@@ -17,14 +17,14 @@ services:
     # command: sh -c "yarn install --production=false && yarn dev"
     # env_file:
       # - .env
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:55658/admin"]
-      interval: 5s
-      timeout: 20s
-      retries: 10
+   # healthcheck:
+   #   test: ["CMD", "wget", "-q", "--spider", "http://localhost:55658/admin"]
+    #  interval: 5s
+     # timeout: 20s
+      #retries: 10
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
+        #condition: service_healthy
 
   mongo:
     image: mongo:latest
@@ -36,12 +36,12 @@ services:
       - data:/data/db
     # logging:
       # driver: none
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
-      interval: 10s
-      timeout: 10s
-      retries: 6
-      start_period: 40s  
+   # healthcheck:
+    #  test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+     # interval: 10s
+      #timeout: 10s
+      #retries: 6
+      #start_period: 40s  
 
 volumes:
   data:
