@@ -5,11 +5,11 @@ services:
 #    image: node:18-alpine
     build: .
     ports:
-      - '3000'
+      - '55658:3000'
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URI=${DATABASE_URI}
-#       - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
 #     volumes:
 #      - .:/home/node/app
 #       - node_modules:/home/node/app/node_modules
@@ -17,11 +17,11 @@ services:
 #     command: sh -c "yarn install --production=false && yarn dev"
 #     env_file:
 #       - .env
-#    healthcheck:
-#      test: ["CMD", "wget", "-q", "--spider", "http://localhost:55658/admin"]
-#      interval: 5s
-#      timeout: 20s
-#      retries: 10
+    healthcheck:
+      test: [ "CMD", "wget", "-q", "--spider", "http://localhost:3000/admin" ]
+      interval: 5s
+      timeout: 20s
+      retries: 10
     depends_on:
       - postgres
         #condition: service_healthy
@@ -47,7 +47,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ./data/db
+      device: ${PWD}/data/db
       o: bind
     labels:
       place.milan.description: "Postgress Database volume"

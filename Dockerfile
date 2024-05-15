@@ -11,7 +11,7 @@ RUN yarn build
 
 FROM base as runtime
 
-ENV NODE_ENV=production
+#ENV NODE_ENV=production
 ENV PAYLOAD_CONFIG_PATH=dist/payload.config.js
 
 WORKDIR /home/node/app
@@ -24,5 +24,7 @@ COPY --from=builder /home/node/app/dist ./dist
 COPY --from=builder /home/node/app/build ./build
 
 EXPOSE 3000
+
+RUN yarn payload migrate
 
 CMD ["node", "dist/server.js"]
