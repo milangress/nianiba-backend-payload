@@ -35,29 +35,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
-
-#  mongo:
-#    image: mongo:latest
-#    ports:
-#      - '27017:27017'
-#    command:
-#      - --storageEngine=wiredTiger
-#    volumes:
-#      - data:/data/db
-#     logging:
-#       driver: none
-#    healthcheck:
-#      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
-#      interval: 10s
-#      timeout: 10s
-#      retries: 6
-#      start_period: 40s
 
 volumes:
   db-data:
