@@ -10,7 +10,7 @@ services:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URI=mongodb://mongo:27017/nianiba-payload
       # - NODE_ENV=production
-    volumes:
+    # volumes:
       #- .:/home/node/app
       # - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
