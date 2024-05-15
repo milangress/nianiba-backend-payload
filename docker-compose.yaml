@@ -1,31 +1,36 @@
-version: '3'
+# port: 3000
+name: payload
 
 services:
   payload:
-    image: node:18-alpine
-    ports:
-      - '33789'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
+    build:
+      context: .
     depends_on:
       - mongo
+    environment:
+      - SERVICE_FQDN_PAYLOAD
+      - PAYLOAD_SECRET=$SERVICE_PASSWORD_PAYLOAD
+      - DATABASE_URI=mongodb://mongo:27017/website
+    volumes:
+      - 'payload-uploads:/app/dist/uploads'
     env_file:
       - .env
+    restart: unless-stopped
 
   mongo:
-    image: mongo:latest
-    ports:
-      - '27017:27017'
+    image: mongo:7.0
     command:
       - --storageEngine=wiredTiger
     volumes:
-      - data:/data/db
-    logging:
-      driver: none
-
-volumes:
-  data:
-  node_modules:
+      - 'payload-mongo-data:/data/db'
+      - 'payload-mongo-config:/data/configdb'
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/website --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s 
+      
