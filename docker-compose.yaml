@@ -8,23 +8,23 @@ services:
       - '55658:3000'
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
-      - DATABASE_URI=${DATABASE_URI}
+      - DATABASE_URI=${DATABASE_URI_DOCKER}
       - NODE_ENV=${NODE_ENV}
 #     volumes:
 #      - .:/home/node/app
 #       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
 #     command: sh -c "yarn install --production=false && yarn dev"
-#     env_file:
-#       - .env
+    env_file:
+      - .env
     healthcheck:
       test: [ "CMD", "wget", "-q", "--spider", "http://localhost:3000/admin" ]
       interval: 5s
       timeout: 20s
       retries: 10
     depends_on:
-      - postgres
-        #condition: service_healthy
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: "postgres:16.3-alpine"
