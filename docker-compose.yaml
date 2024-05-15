@@ -2,18 +2,18 @@ version: '3'
 
 services:
   payload:
-    image: node:18-alpine
+    build: .
     ports:
       - '55658:3000'
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URI=mongodb://mongo:27017/nianiba-payload
-      - NODE_ENV=production
+      # - NODE_ENV=production
     volumes:
-      - .:/home/node/app
+      # - .:/home/node/app
       - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
-    command: sh -c "yarn install --production=false && yarn dev"
+    # command: sh -c "yarn install --production=false && yarn dev"
     depends_on:
       - mongo
     env_file:
@@ -27,8 +27,8 @@ services:
       - --storageEngine=wiredTiger
     volumes:
       - data:/data/db
-    logging:
-      driver: none
+    # logging:
+      # driver: none
 
 volumes:
   data:
