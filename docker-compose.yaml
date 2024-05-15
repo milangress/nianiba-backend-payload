@@ -5,6 +5,9 @@ services:
     image: node:18-alpine
     ports:
       - '3000'
+    environment:
+      - PAYLOAD_SECRET=${PAYLOAD_SECRET}
+      - DATABASE_URI=mongodb://mongo:27017/nianiba-payload 
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
