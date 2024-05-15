@@ -15,10 +15,16 @@ services:
       # - node_modules:/home/node/app/node_modules
     working_dir: /home/node/app/
     # command: sh -c "yarn install --production=false && yarn dev"
+    # env_file:
+      # - .env
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:55658/admin"]
+      interval: 5s
+      timeout: 20s
+      retries: 10
     depends_on:
-      - mongo
-    env_file:
-      - .env
+      mongo:
+        condition: service_healthy
 
   mongo:
     image: mongo:latest
