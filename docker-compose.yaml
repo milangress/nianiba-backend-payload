@@ -2,6 +2,7 @@ version: '3'
 
 services:
   payload:
+    image: node:18-alpine 
     # build: .
     ports:
       - '55658:3000'
