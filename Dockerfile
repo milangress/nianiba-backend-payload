@@ -19,12 +19,19 @@ COPY package*.json  ./
 COPY yarn.lock ./
 
 RUN yarn add express
-RUN yarn install
+
+RUN yarn install --production=true
 COPY --from=builder /home/node/app/dist ./dist
 COPY --from=builder /home/node/app/build ./build
 
 EXPOSE 3000
 
-RUN yarn payload migrate
+# Conditionally add @payloadcms/payload, run migrations, and remove @payloadcms/payload
+RUN if [ "$NODE_ENV" = "production" ]; then \
+    yarn add @payloadcms/payload && \
+    yarn payload:distMigrate && \
+    yarn remove @payloadcms/payload; \
+    else echo 'Skipping payload migration'; \
+    fi
 
 CMD ["node", "dist/server.js"]
