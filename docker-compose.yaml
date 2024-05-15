@@ -5,8 +5,6 @@ services:
     image: node:18-alpine
     ports:
       - '55658:3000'
-    build:
-      context: .  
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URI=mongodb://mongo:27017/nianiba-payload
