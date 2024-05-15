@@ -18,11 +18,10 @@ WORKDIR /home/node/app
 COPY package*.json  ./
 COPY yarn.lock ./
 
+RUN yarn add express
 RUN yarn install
 COPY --from=builder /home/node/app/dist ./dist
 COPY --from=builder /home/node/app/build ./build
-
-RUN ls -la
 
 EXPOSE 3000
 
