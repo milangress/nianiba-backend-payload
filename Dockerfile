@@ -13,8 +13,6 @@ RUN yarn config set registry https://registry.npmjs.org/ && yarn install --produ
 # Copy the rest of the application code
 COPY . .
 
-RUN yarn dev
-
 # Expose the application port
 EXPOSE 3000
 
