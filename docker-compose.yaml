@@ -3,7 +3,9 @@ version: '3'
 services:
   payload:
 #    image: node:18-alpine
-    build: .
+    build:
+      context: .
+      target: runtime
     ports:
       - '55658:3000'
     environment:
@@ -23,8 +25,37 @@ services:
       timeout: 20s
       retries: 10
     depends_on:
+      db-migration:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
+
+  db-migration:
+    build:
+      context: .
+      target: migration
+    environment:
+      - DATABASE_URI=${DATABASE_URI_DOCKER}
+    env_file:
+      - .env
+    depends_on:
+      build-step:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+  build-step:
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    build:
+      context: .
+      target: builder
+      cache_from:
+        - type=local,src=./.buildkit-cache/build-step
+      cache_to:
+        - type=local,dest=./.buildkit-cache/build-step,mode=max
+    env_file:
+      - .env
 
   postgres:
     image: "postgres:16.3-alpine"
