@@ -97,6 +97,11 @@ services:
       - HOST_BUCKET={{team.S3_BUCKET}}
       #- CRON_SCHEDULE="*/5 * * * *"
       #- DB_DUMP_ENCRYPTION=true
+      # FOR BACKUP FILE RESTORE:
+      # TARGET_DB The db name to restore
+      # TARGET_ARCHIVE The full path of the archive to restore
+      # FOR BACKUP S3 RESTORE
+      # $ docker-compose exec dbbackups /backup-scripts/restore.sh 2023-03-24
     restart: on-failure
     env_file:
       - .env
@@ -107,7 +112,6 @@ services:
 volumes:
   db-backups:
   db-data:
-    external: true
     # driver: local
     # driver_opts:
     # type: none

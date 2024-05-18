@@ -53,17 +53,17 @@ CMD ["node", "dist/server.js"]
 FROM base as migration
 
 RUN echo "running: $NODE_ENV" >&2
+
 COPY package*.json yarn.lock  ./
 COPY --from=builder /home/node/app/node_modules ./node_modules
 COPY --from=builder /home/node/app/src ./src
-COPY package*.json yarn.lock  ./
 
 # Conditionally add @payloadcms/payload, run migrations, and remove @payloadcms/payload
-RUN if [ "${NODE_ENV}" = "production" ]; then \
-    yarn add @payloadcms/payload && \
-    yarn payload:distMigrate >&2; \
-    else \
-    echo 'Skipping payload migration'; \
-    fi
+#RUN if [ "${NODE_ENV}" = "production" ]; then \
+#    yarn add @payloadcms/payload && \
+#    yarn payload:distMigrate >&2; \
+#    else \
+#    echo 'Skipping payload migration'; \
+#    fi
 
- CMD ["echo", "Migration complete."]
+ CMD ["yarn", "payload:distMigrate"]
