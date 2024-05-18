@@ -77,12 +77,11 @@ services:
 
 volumes:
   db-data:
-    external: true
-    driver: local
-    driver_opts:
-      type: none
-      device: ${PWD}/data/db
-      o: bind
+    # driver: local
+    # driver_opts:
+    # type: none
+    # device: ${PWD}/data/db
+    # o: bind
     labels:
       place.milan.description: "Postgress Database volume"
       place.milan.department: "IT/Ops"
