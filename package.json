@@ -14,7 +14,8 @@
     "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "generate:graphQLSchema": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
-    "payload:distMigrate": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.ts payload migrate"
+    "payload:distMigrate": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.ts payload migrate",
+    "drizzle": "yarn drizzle-kit studio --port 3033 --verbose"
   },
   "dependencies": {
     "@payloadcms/bundler-webpack": "^1.0.0",
@@ -31,6 +32,7 @@
   "devDependencies": {
     "@types/express": "^4.17.9",
     "copyfiles": "^2.4.1",
+    "drizzle-kit": "^0.21.2",
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",
     "typescript": "^4.8.4"

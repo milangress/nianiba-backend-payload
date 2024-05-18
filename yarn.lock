@@ -4187,6 +4187,21 @@ drizzle-kit@0.20.14-1f2c838:
     semver "^7.5.4"
     zod "^3.20.2"
 
+drizzle-kit@^0.21.2:
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/drizzle-kit/-/drizzle-kit-0.21.2.tgz#a8495cec8ced1112b2c29bb1ac9e3754a0d908da"
+  integrity sha512-U87IhZyCt/9d0ZT/Na3KFJVY31tSxtTx/n9UMcWFpW/5c2Ede39xiCG5efNV/0iimsv97UIRtDI0ldLBW5lbcg==
+  dependencies:
+    "@esbuild-kit/esm-loader" "^2.5.5"
+    commander "^9.4.1"
+    env-paths "^3.0.0"
+    esbuild "^0.19.7"
+    esbuild-register "^3.5.0"
+    glob "^8.1.0"
+    hanji "^0.0.5"
+    json-diff "0.9.0"
+    zod "^3.20.2"
+
 drizzle-orm@0.29.3:
   version "0.29.3"
   resolved "https://registry.yarnpkg.com/drizzle-orm/-/drizzle-orm-0.29.3.tgz#a9b9beb235bbdf9100e62432390cadbee95345cf"
