@@ -37,6 +37,7 @@ services:
       context: .
       args:
         - NODE_ENV=${NODE_ENV}
+        - SOURCE_COMMIT=${SOURCE_COMMIT}
       target: migration
     environment:
       - DATABASE_URI=${DATABASE_URI_DOCKER}
@@ -75,15 +76,45 @@ services:
       timeout: 5s
       retries: 5
 
+  dbbackups:
+    image: kartoza/pg-backup:16-3.4
+    volumes:
+      - db-backups:/backups
+    environment:
+      - DUMPPREFIX=NIANIBA
+      - POSTGRES_HOST=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=5432
+      - POSTGRES_DBNAME=nianiba-db
+      - RUN_AS_ROOT=true
+      - STORAGE_BACKEND=S3
+      - ACCESS_KEY_ID={{team.S3_ACCESS_KEY}}
+      - SECRET_ACCESS_KEY={{team.S3_SECRET_KEY}}
+      - DEFAULT_REGION=eu-1
+      - BUCKET={{team.S3_BUCKET}}/pg-backup
+      - HOST_BASE={{team.S3_ENDPOINT}}
+      - HOST_BUCKET={{team.S3_BUCKET}}
+      #- CRON_SCHEDULE="*/5 * * * *"
+      #- DB_DUMP_ENCRYPTION=true
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
+  db-backups:
   db-data:
+    external: true
     # driver: local
     # driver_opts:
     # type: none
     # device: ${PWD}/data/db
     # o: bind
-    labels:
-      place.milan.description: "Postgress Database volume"
-      place.milan.department: "IT/Ops"
-      place.milan.owner: "place.milan.nianiba"
+      # labels:
+      #   place.milan.description: "Postgress Database volume"
+      #  place.milan.department: "IT/Ops"
+    # place.milan.owner: "place.milan.nianiba"
  # node_modules:
