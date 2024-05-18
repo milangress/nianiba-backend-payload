@@ -77,6 +77,7 @@ services:
 
 volumes:
   db-data:
+    external: true
     driver: local
     driver_opts:
       type: none
