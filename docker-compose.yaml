@@ -56,10 +56,6 @@ services:
       args:
         - NODE_ENV=${NODE_ENV}
       target: builder
-      cache_from:
-        - type=local,src=./.buildkit-cache/build-step
-      cache_to:
-        - type=local,dest=./.buildkit-cache/build-step,mode=max
     env_file:
       - .env
 
