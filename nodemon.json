@@ -3,6 +3,12 @@
   "ext": "ts",
   "exec": "ts-node src/server.ts -- -I",
   "stdin": false,
-  "verbose": true,
-  "legacyWatch": true
+  "legacyWatch": true,
+  "ignore": [
+    "data",
+    "build",
+    ".buildkit-cache",
+    "node_modules",
+    ".git"
+  ]
 }
