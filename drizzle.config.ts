@@ -1,5 +1,4 @@
 import {defineConfig} from "drizzle-kit";
-import payload from "payload";
 
 // export default defineConfig({
 //     schema: "./src/payload-types.ts",
@@ -9,9 +8,6 @@ import payload from "payload";
 //         url: process.env.DATABASE_URI,
 //     }
 // });
-
-console.log(process.env.DATABASE_URI);
-console.log(payload.db.tables)
 
 export default defineConfig({
     schema: "./src/payload-types.ts",
