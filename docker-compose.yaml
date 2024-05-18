@@ -6,6 +6,8 @@ services:
     build:
       context: .
       target: runtime
+      args:
+        - NODE_ENV=${NODE_ENV}
     ports:
       - '55658:3000'
     environment:
@@ -33,6 +35,8 @@ services:
   db-migration:
     build:
       context: .
+      args:
+        - NODE_ENV=${NODE_ENV}
       target: migration
     environment:
       - DATABASE_URI=${DATABASE_URI_DOCKER}
@@ -49,6 +53,8 @@ services:
       - NODE_ENV=${NODE_ENV}
     build:
       context: .
+      args:
+        - NODE_ENV=${NODE_ENV}
       target: builder
       cache_from:
         - type=local,src=./.buildkit-cache/build-step

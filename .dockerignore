@@ -1,0 +1,14 @@
+.git
+.gitignore
+LICENSE
+VERSION
+README.md
+Changelog.md
+Makefile
+docker-compose.yml
+.buildkit-cache
+docs
+build
+data
+dist
+node_modules
