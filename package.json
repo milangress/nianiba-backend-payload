@@ -14,6 +14,7 @@
     "generate:types": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:types",
     "generate:graphQLSchema": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
+    "payload:migrate": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload migrate",
     "payload:distMigrate": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.ts payload migrate",
     "drizzle": "yarn drizzle-kit studio --port 3033 --verbose"
   },
@@ -36,5 +37,9 @@
     "nodemon": "^2.0.6",
     "ts-node": "^9.1.1",
     "typescript": "^4.8.4"
+  },
+  "volta": {
+    "node": "20.13.1",
+    "yarn": "4.2.2"
   }
 }
