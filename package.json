@@ -15,7 +15,7 @@
     "generate:graphQLSchema": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema",
     "payload": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload",
     "payload:migrate:create": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload migrate:create",
-    "payload:distMigrate": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload migrate",
+    "payload:distMigrate": "cross-env PAYLOAD_CONFIG_PATH=dist/payload.config.ts payload migrate",
     "drizzle": "yarn drizzle-kit studio --port 3033 --verbose"
   },
   "dependencies": {
