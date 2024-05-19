@@ -100,7 +100,9 @@ services:
 
 volumes:
   db-backups:
+    external: true
   db-data:
+    external: true
     # driver: local
     # driver_opts:
     # type: none
