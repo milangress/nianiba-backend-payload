@@ -44,7 +44,7 @@ services:
       retries: 10
     depends_on:
       nianiba-db-migration:
-        condition: service_started
+        condition: service_completed_successfully
       nianiba-postgres:
         condition: service_healthy
 
