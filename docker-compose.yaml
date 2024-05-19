@@ -1,7 +1,7 @@
 version: '3'
-name: nianiba-payload
+name: nia-payload
 services:
-  postgres:
+  nianiba-postgres:
     image: "postgres:16.3-alpine"
     environment:
       POSTGRES_USER: postgres
@@ -10,14 +10,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - nianiba-db-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
 
-  payload:
+  nianiba-payload:
 #    image: node:18-alpine
     build:
       context: .
@@ -25,7 +25,7 @@ services:
       args:
         - NODE_ENV=${NODE_ENV}
     ports:
-      - '55658:3000'
+      - '3000'
     environment:
       - PAYLOAD_SECRET=${PAYLOAD_SECRET}
       - DATABASE_URI=${DATABASE_URI_DOCKER}
@@ -43,13 +43,13 @@ services:
       timeout: 20s
       retries: 10
     depends_on:
-      db-migration:
+      nianiba-db-migration:
         condition: service_started
-      postgres:
+      nianiba-postgres:
         condition: service_healthy
 
 
-  db-migration:
+  nianiba-db-migration:
     restart: no
     build:
       context: .
@@ -62,16 +62,16 @@ services:
     env_file:
       - .env
     depends_on:
-      postgres:
+      nianiba-postgres:
         condition: service_healthy
 
-  db-backups:
+  nianiba-db-backups:
     image: kartoza/pg-backup:16-3.4
     volumes:
-      - db-backups:/backups
+      - nianiba-db-backups:/backups
     environment:
       - DUMPPREFIX=NIANIBA
-      - POSTGRES_HOST=postgres
+      - POSTGRES_HOST=nianiba-postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASS=${POSTGRES_PASSWORD}
       - POSTGRES_PORT=5432
@@ -95,14 +95,14 @@ services:
     env_file:
       - .env
     depends_on:
-      postgres:
+      nianiba-postgres:
         condition: service_healthy
 
 volumes:
-  db-backups:
-    external: true
-  db-data:
-    external: true
+  nianiba-db-backups:
+  #external: true
+  nianiba-db-data:
+  #external: true
     # driver: local
     # driver_opts:
     # type: none
