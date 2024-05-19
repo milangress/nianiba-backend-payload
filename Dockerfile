@@ -65,5 +65,6 @@ COPY --from=builder /home/node/app/src ./src
 #    else \
 #    echo 'Skipping payload migration'; \
 #    fi
+RUN yarn payload:distMigrate >&2
 
- CMD ["yarn", "payload:distMigrate"]
+ # CMD ["yarn", "payload:distMigrate"]
