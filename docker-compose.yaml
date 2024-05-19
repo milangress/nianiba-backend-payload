@@ -100,9 +100,9 @@ services:
 
 volumes:
   nianiba-db-backups:
-  #external: true
+    external: true
   nianiba-db-data:
-  #external: true
+    external: true
     # driver: local
     # driver_opts:
     # type: none
