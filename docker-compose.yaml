@@ -1,6 +1,22 @@
 version: '3'
-
+# name: nianiba-payload
 services:
+  postgres:
+    image: "postgres:16.3-alpine"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: nianiba-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   payload:
 #    image: node:18-alpine
     build:
@@ -32,7 +48,9 @@ services:
       postgres:
         condition: service_healthy
 
+
   db-migration:
+    restart: no
     build:
       context: .
       args:
@@ -43,29 +61,11 @@ services:
       - DATABASE_URI=${DATABASE_URI_DOCKER}
     env_file:
       - .env
-    restart: no
     depends_on:
       postgres:
         condition: service_healthy
 
-
-  postgres:
-    image: "postgres:16.3-alpine"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: nianiba-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - db-data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  dbbackups:
+  db-backups:
     image: kartoza/pg-backup:16-3.4
     volumes:
       - db-backups:/backups
@@ -100,9 +100,7 @@ services:
 
 volumes:
   db-backups:
-    external: true
   db-data:
-    external: true
     # driver: local
     # driver_opts:
     # type: none

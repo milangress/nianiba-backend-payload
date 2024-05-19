@@ -64,9 +64,15 @@ RUN echo "running: $NODE_ENV" >&2
 #    yarn payload:distMigrate >&2; \
 #    else \
 #    echo 'Skipping payload migration'; \
-#    fi
-RUN yarn payload:distMigrate
+#    fi \
+
+#CMD ["ls", "-la"]
+
+#RUN yarn add @payloadcms/payload
+#RUN yarn run payload:distMigrate
+
+#RUN yarn payload migrate
 
 # CMD ["tail", "-f", "/dev/null"]
 
-CMD ["yarn", "payload:distMigrate"]
+CMD ["yarn", "payload", "migrate"]
