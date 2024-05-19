@@ -67,4 +67,6 @@ COPY --from=builder /home/node/app/src ./src
 #    fi
 RUN yarn payload:distMigrate >&2
 
- # CMD ["yarn", "payload:distMigrate"]
+# CMD ["tail", "-f", "/dev/null"]
+
+CMD ["yarn", "payload:distMigrate"]
